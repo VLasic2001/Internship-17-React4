@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+}
+.field-row {
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+}
+.field {
+  width: 104px;
+  height: 120px;
+  position: relative;
+  left: 500px;
+  top: 200px;
+}
+
+.hex-top {
+  width: 0;
+  border-bottom: 30px solid;
+  border-left: 52px solid transparent;
+  border-right: 52px solid transparent;
+  position: relative;
+}
+.hex-middle {
+  width: 104px;
+  height: 60px;
+  position: relative;
+}
+.hex-bottom {
+  width: 0;
+  border-top: 30px solid;
+  border-left: 52px solid transparent;
+  border-right: 52px solid transparent;
+  position: relative;
+}
+.road {
+  width: 50px;
+  height: 6px;
+  position: absolute;
+}
+.road-top-right {
+  top: 12px;
+  right: 2px;
+  transform: rotate(-30deg);
+}
+.road-top-left {
+  top: 12px;
+  transform: rotate(30deg);
+}
+.road-right {
+  right: 2px;
+  top: 50%;
+  bottom: 50%;
+  transform: rotate(90deg) translate(0, -27px);
+}
+.road-left {
+  left: 2px;
+  top: 50%;
+  bottom: 50%;
+  transform: rotate(90deg) translate(0, 27px);
+}
+.road-bottom-right {
+  bottom: 12px;
+  right: 2px;
+  transform: rotate(30deg);
+}
+.road-bottom-left {
+  bottom: 12px;
+  transform: rotate(-30deg);
+}
+.crossroad {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: 1;
+}
+.crossroad-top {
+  top: 0;
+  left: 50%;
+  right: 50%;
+  transform: translate(-10px, -10px);
+}
+.crossroad-top-left {
+  top: 0px;
+  transform: translate(-10px, -10px);
+}
+.crossroad-top-right {
+  top: 0px;
+  right: 0;
+  transform: translate(10px, -10px);
+}
+.crossroad-bottom {
+  bottom: 0;
+  left: 50%;
+  right: 50%;
+  transform: translate(-10px, 10px);
+}
+.crossroad-bottom-left {
+  bottom: 0px;
+  transform: translate(-10px, 10px);
+}
+.crossroad-bottom-right {
+  bottom: 0px;
+  right: 0;
+  transform: translate(10px, 10px);
+}
+
+.dice-index {
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-11px, -11px);
+  position: absolute;
+  text-align: center;
+  line-height: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
+}
