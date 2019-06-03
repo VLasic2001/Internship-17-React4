@@ -3,33 +3,75 @@ import "../App.css";
 import Road from "./Road";
 import Crossroad from "./Crossroad";
 
-const Hexagon = ({ color, value }) => {
+const Hexagon = ({ tile }) => {
   return (
     <div>
-      <div className="hex-top" style={{ borderBottomColor: color }}>
-        <Road color="black" roadType="road road-top-right" />
-        <Road color="black" roadType="road road-top-left" />
-        <Crossroad color="gray" crossroadType="crossroad crossroad-top" />
-      </div>
-      <div className="hex-middle" style={{ backgroundColor: color }}>
-        <Road color="black" roadType="road road-left" />
-        <Road color="black" roadType="road road-right" />
-        <div className="dice-index">{value}</div>
-        <Crossroad color="gray" crossroadType="crossroad crossroad-top-left" />
-        <Crossroad color="gray" crossroadType="crossroad crossroad-top-right" />
+      <div className="hex-top" style={{ borderBottomColor: tile.color }}>
+        <Road
+          color={tile.roadTopRight.color}
+          roadType="road road-top-right"
+          id={tile.id * 6 + 2}
+        />
+        <Road
+          color={tile.roadTopLeft.color}
+          roadType="road road-top-left"
+          id={tile.id * 6 + 1}
+        />
         <Crossroad
-          color="gray"
+          color={tile.crossroadTop.color}
+          crossroadType="crossroad crossroad-top"
+          id={tile.id * 6 + 1}
+        />
+      </div>
+      <div className="hex-middle" style={{ backgroundColor: tile.color }}>
+        <Road
+          color={tile.roadLeft.color}
+          roadType="road road-left"
+          id={tile.id * 6 + 6}
+        />
+        <Road
+          color={tile.roadRight.color}
+          roadType="road road-right"
+          id={tile.id * 6 + 3}
+        />
+        <div className="dice-index">{tile.value}</div>
+        <Crossroad
+          color={tile.crossroadTopLeft.color}
+          crossroadType="crossroad crossroad-top-left"
+          id={tile.id * 6 + 6}
+        />
+        <Crossroad
+          color={tile.crossroadTopRight.color}
+          crossroadType="crossroad crossroad-top-right"
+          id={tile.id * 6 + 2}
+        />
+        <Crossroad
+          color={tile.crossroadBottomLeft.color}
           crossroadType="crossroad crossroad-bottom-left"
+          id={tile.id * 6 + 5}
         />
         <Crossroad
-          color="gray"
+          color={tile.crossroadBottomRight.color}
           crossroadType="crossroad crossroad-bottom-right"
+          id={tile.id * 6 + 3}
         />
       </div>
-      <div className="hex-bottom" style={{ borderTopColor: color }}>
-        <Road color="black" roadType="road road-bottom-right" />
-        <Road color="black" roadType="road road-bottom-left" />
-        <Crossroad color="gray" crossroadType="crossroad crossroad-bottom" />
+      <div className="hex-bottom" style={{ borderTopColor: tile.color }}>
+        <Road
+          color={tile.roadBottomRight.color}
+          roadType="road road-bottom-right"
+          id={tile.id * 6 + 4}
+        />
+        <Road
+          color={tile.roadBottomLeft.color}
+          roadType="road road-bottom-left"
+          id={tile.id * 6 + 5}
+        />
+        <Crossroad
+          color={tile.crossroadBottom.color}
+          crossroadType="crossroad crossroad-bottom"
+          id={tile.id * 6 + 4}
+        />
       </div>
     </div>
   );

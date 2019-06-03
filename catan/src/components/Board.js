@@ -6,102 +6,43 @@ import { setBoard } from "../redux/modules/board";
 
 class Board extends Component {
   render() {
-    console.log(this.props);
-
     return (
       <div className="field">
         <div className="field-row">
-          <Hexagon
-            color={this.props.tiles[0][0].color}
-            value={this.props.tiles[0][0].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][1].color}
-            value={this.props.tiles[0][1].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][2].color}
-            value={this.props.tiles[0][2].value}
-          />
+          <Hexagon tile={this.props.tiles[0]} />
+          <Hexagon tile={this.props.tiles[1]} />
+          <Hexagon tile={this.props.tiles[2]} />
         </div>
         <div className="field-row">
-          <Hexagon
-            color={this.props.tiles[0][3].color}
-            value={this.props.tiles[0][3].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][4].color}
-            value={this.props.tiles[0][4].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][5].color}
-            value={this.props.tiles[0][5].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][6].color}
-            value={this.props.tiles[0][6].value}
-          />
+          <Hexagon tile={this.props.tiles[3]} />
+          <Hexagon tile={this.props.tiles[4]} />
+          <Hexagon tile={this.props.tiles[5]} />
+          <Hexagon tile={this.props.tiles[6]} />
         </div>
         <div className="field-row">
-          <Hexagon
-            color={this.props.tiles[0][7].color}
-            value={this.props.tiles[0][7].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][8].color}
-            value={this.props.tiles[0][8].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][9].color}
-            value={this.props.tiles[0][9].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][10].color}
-            value={this.props.tiles[0][10].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][11].color}
-            value={this.props.tiles[0][11].value}
-          />
+          <Hexagon tile={this.props.tiles[7]} />
+          <Hexagon tile={this.props.tiles[8]} />
+          <Hexagon tile={this.props.tiles[9]} />
+          <Hexagon tile={this.props.tiles[10]} />
+          <Hexagon tile={this.props.tiles[11]} />
         </div>
         <div className="field-row">
-          <Hexagon
-            color={this.props.tiles[0][12].color}
-            value={this.props.tiles[0][12].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][13].color}
-            value={this.props.tiles[0][13].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][14].color}
-            value={this.props.tiles[0][14].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][15].color}
-            value={this.props.tiles[0][15].value}
-          />
+          <Hexagon tile={this.props.tiles[12]} />
+          <Hexagon tile={this.props.tiles[13]} />
+          <Hexagon tile={this.props.tiles[14]} />
+          <Hexagon tile={this.props.tiles[15]} />
         </div>
         <div className="field-row">
-          <Hexagon
-            color={this.props.tiles[0][16].color}
-            value={this.props.tiles[0][16].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][17].color}
-            value={this.props.tiles[0][17].value}
-          />
-          <Hexagon
-            color={this.props.tiles[0][18].color}
-            value={this.props.tiles[0][18].value}
-          />
+          <Hexagon tile={this.props.tiles[16]} />
+          <Hexagon tile={this.props.tiles[17]} />
+          <Hexagon tile={this.props.tiles[18]} />
         </div>
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
-  tiles: state.tiles
+  tiles: state.tiles[0]
 });
 
 const mapDispatchToProps = {

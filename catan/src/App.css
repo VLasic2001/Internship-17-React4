@@ -38,12 +38,12 @@
   height: 6px;
   position: absolute;
 }
-.road-top-right {
+.road-top-left {
   top: 12px;
   right: 2px;
   transform: rotate(-30deg);
 }
-.road-top-left {
+.road-top-right {
   top: 12px;
   transform: rotate(30deg);
 }

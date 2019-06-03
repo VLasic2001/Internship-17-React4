@@ -129,15 +129,46 @@ const tiles = [
     value: randomValues[17]
   },
   { tile: "desert", resource: null, color: "#1E1E1E", value: "" }
-];
+].sort(() => Math.random() - 0.5);
+
+let mappedTiles = [];
+
+mappedTiles = tiles.map((tile, index) => {
+  return {
+    ...tile,
+    id: index,
+    roadTopLeft: { id: index * 6 + 1, playerId: null, color: "black" },
+    roadTopRight: { id: index * 6 + 2, playerId: null, color: "black" },
+    roadRight: { id: index * 6 + 3, playerId: null, color: "black" },
+    roadBottomRight: { id: index * 6 + 4, playerId: null, color: "black" },
+    roadBottomLeft: { id: index * 6 + 5, playerId: null, color: "black" },
+    roadLeft: { id: index * 6 + 6, playerId: null, color: "black" },
+    crossroadTop: { id: index * 6 + 1, playerId: null, color: "gray" },
+    crossroadTopRight: { id: index * 6 + 2, playerId: null, color: "gray" },
+    crossroadBottomRight: { id: index * 6 + 3, playerId: null, color: "gray" },
+    crossroadBottom: { id: index * 6 + 4, playerId: null, color: "gray" },
+    crossroadBottomLeft: { id: index * 6 + 5, playerId: null, color: "gray" },
+    crossroadTopLeft: { id: index * 6 + 6, playerId: null, color: "gray" }
+  };
+});
+
+function roadBuilder(id, playerId, color) {
+  return { id: id, playerId: playerId, color: color };
+}
+
 //action types
 const SET_BOARD = "SET_BOARD";
+const BUILD_ROAD = "BUILD_ROAD";
 
 //initial state
 const initialState = {
-  tiles: [tiles.sort(() => Math.random() - 0.5)],
+  tiles: [mappedTiles],
   players: [
     {
+      currentPlayerId: 1
+    },
+    {
+      id: 1,
       name: "player1",
       color: "red",
       lumber: 0,
@@ -147,6 +178,7 @@ const initialState = {
       ore: 0
     },
     {
+      id: 2,
       name: "player2",
       color: "blue",
       lumber: 0,
@@ -157,15 +189,55 @@ const initialState = {
     }
   ]
 };
+
 //action creators
 export const setBoard = () => dispatch => {
   dispatch({ type: SET_BOARD });
 };
+
+export const buildRoad = roadId => dispatch => {
+  const playerId = initialState.players[0].currentPlayerId;
+  const color = initialState.players[playerId].color;
+  console.log("usa");
+  switch (roadId) {
+    case 1:
+      initialState.tiles[0].roadTopLeft = roadBuilder(roadId, playerId, color);
+      break;
+    case 2:
+      initialState.tiles[0].roadTopRight = roadBuilder(roadId, playerId, color);
+      break;
+    case 7:
+      initialState.tiles[1].roadTopLeft = roadBuilder(roadId, playerId, color);
+      break;
+    case 8:
+      initialState.tiles[1].roadTopRight = roadBuilder(roadId, playerId, color);
+      break;
+    case 13:
+      initialState.tiles[2].roadTopLeft = roadBuilder(roadId, playerId, color);
+      break;
+    case 14:
+      initialState.tiles[2].roadTopRight = roadBuilder(roadId, playerId, color);
+      break;
+    case 6:
+      initialState.tiles[0].roadLeft = roadBuilder(roadId, playerId, color);
+      break;
+    case 12:
+      initialState.tiles[0].roadRight = roadBuilder(roadId, playerId, color);
+      initialState.tiles[1].roadLeft = roadBuilder(roadId, playerId, color);
+      break;
+  }
+  dispatch({
+    type: BUILD_ROAD,
+    state: initialState
+  });
+};
+
+//reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_BOARD:
+    case BUILD_ROAD:
       return {
-        ...state
+        ...action.state
       };
     default:
       return {
