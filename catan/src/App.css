@@ -59,12 +59,12 @@
   bottom: 50%;
   transform: rotate(90deg) translate(0, 27px);
 }
-.road-bottom-right {
+.road-bottom-left {
   bottom: 12px;
   right: 2px;
   transform: rotate(30deg);
 }
-.road-bottom-left {
+.road-bottom-right {
   bottom: 12px;
   transform: rotate(-30deg);
 }

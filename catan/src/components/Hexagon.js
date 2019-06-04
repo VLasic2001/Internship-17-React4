@@ -11,16 +11,19 @@ const Hexagon = ({ tile }) => {
           color={tile.roadTopRight.color}
           roadType="road road-top-right"
           id={tile.id * 6 + 2}
+          hexId={tile.id}
         />
         <Road
           color={tile.roadTopLeft.color}
           roadType="road road-top-left"
           id={tile.id * 6 + 1}
+          hexId={tile.id}
         />
         <Crossroad
           color={tile.crossroadTop.color}
           crossroadType="crossroad crossroad-top"
           id={tile.id * 6 + 1}
+          hexId={tile.id}
         />
       </div>
       <div className="hex-middle" style={{ backgroundColor: tile.color }}>
@@ -28,32 +31,38 @@ const Hexagon = ({ tile }) => {
           color={tile.roadLeft.color}
           roadType="road road-left"
           id={tile.id * 6 + 6}
+          hexId={tile.id}
         />
         <Road
           color={tile.roadRight.color}
           roadType="road road-right"
           id={tile.id * 6 + 3}
+          hexId={tile.id}
         />
         <div className="dice-index">{tile.value}</div>
         <Crossroad
           color={tile.crossroadTopLeft.color}
           crossroadType="crossroad crossroad-top-left"
           id={tile.id * 6 + 6}
+          hexId={tile.id}
         />
         <Crossroad
           color={tile.crossroadTopRight.color}
           crossroadType="crossroad crossroad-top-right"
           id={tile.id * 6 + 2}
+          hexId={tile.id}
         />
         <Crossroad
           color={tile.crossroadBottomLeft.color}
           crossroadType="crossroad crossroad-bottom-left"
           id={tile.id * 6 + 5}
+          hexId={tile.id}
         />
         <Crossroad
           color={tile.crossroadBottomRight.color}
           crossroadType="crossroad crossroad-bottom-right"
           id={tile.id * 6 + 3}
+          hexId={tile.id}
         />
       </div>
       <div className="hex-bottom" style={{ borderTopColor: tile.color }}>
@@ -61,16 +70,19 @@ const Hexagon = ({ tile }) => {
           color={tile.roadBottomRight.color}
           roadType="road road-bottom-right"
           id={tile.id * 6 + 4}
+          hexId={tile.id}
         />
         <Road
           color={tile.roadBottomLeft.color}
           roadType="road road-bottom-left"
           id={tile.id * 6 + 5}
+          hexId={tile.id}
         />
         <Crossroad
           color={tile.crossroadBottom.color}
           crossroadType="crossroad crossroad-bottom"
           id={tile.id * 6 + 4}
+          hexId={tile.id}
         />
       </div>
     </div>

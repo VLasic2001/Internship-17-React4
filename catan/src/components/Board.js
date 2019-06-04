@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Hexagon from "./Hexagon";
-import store from "../redux";
 import { connect } from "react-redux";
 import { setBoard } from "../redux/modules/board";
 
@@ -42,7 +41,7 @@ class Board extends Component {
   }
 }
 const mapStateToProps = state => ({
-  tiles: state.tiles[0]
+  tiles: state.tiles
 });
 
 const mapDispatchToProps = {

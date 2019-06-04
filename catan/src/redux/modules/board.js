@@ -1,3 +1,5 @@
+import hexRelations from "./constants";
+
 const randomValues = [
   2,
   3,
@@ -152,21 +154,134 @@ mappedTiles = tiles.map((tile, index) => {
   };
 });
 
-function roadBuilder(id, playerId, color) {
+function roadConstructor(id, playerId, color) {
   return { id: id, playerId: playerId, color: color };
 }
 
+function roadSetup(roadId, roadType, hexId, state) {
+  const neighbouringHexes = hexRelations[hexId];
+  const playerId = state.currentPlayerId;
+  const color = state.players[playerId - 1].color;
+  const tiles = { ...state.tiles };
+  switch (roadType) {
+    case "road road-top-left":
+      tiles[hexId].roadTopLeft = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.topLeft !== null) {
+        tiles[neighbouringHexes.topLeft].roadBottomRight = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+    case "road road-top-right":
+      tiles[hexId].roadTopRight = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.topRight !== null) {
+        tiles[neighbouringHexes.topRight].roadBottomLeft = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+    case "road road-right":
+      tiles[hexId].roadRight = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.Right !== null) {
+        tiles[neighbouringHexes.Right].roadLeft = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+    case "road road-bottom-right":
+      tiles[hexId].roadBottomRight = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.BottomRight !== null) {
+        tiles[neighbouringHexes.BottomRight].roadTopLeft = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+    case "road road-bottom-left":
+      tiles[hexId].roadBottomLeft = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.BottomLeft !== null) {
+        tiles[neighbouringHexes.BottomLeft].roadTopRight = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+    case "road road-left":
+      tiles[hexId].roadLeft = roadConstructor(roadId, playerId, color);
+      state = {
+        ...state,
+        tiles: tiles
+      };
+      if (neighbouringHexes.left !== null) {
+        tiles[neighbouringHexes.left].roadRight = roadConstructor(
+          roadId,
+          playerId,
+          color
+        );
+        state = {
+          ...state,
+          tiles: tiles
+        };
+      }
+      return state;
+  }
+}
 //action types
 const SET_BOARD = "SET_BOARD";
 const BUILD_ROAD = "BUILD_ROAD";
 
 //initial state
 const initialState = {
-  tiles: [mappedTiles],
+  tiles: mappedTiles,
   players: [
-    {
-      currentPlayerId: 1
-    },
     {
       id: 1,
       name: "player1",
@@ -187,7 +302,8 @@ const initialState = {
       brick: 0,
       ore: 0
     }
-  ]
+  ],
+  currentPlayerId: 1
 };
 
 //action creators
@@ -195,40 +311,10 @@ export const setBoard = () => dispatch => {
   dispatch({ type: SET_BOARD });
 };
 
-export const buildRoad = roadId => dispatch => {
-  const playerId = initialState.players[0].currentPlayerId;
-  const color = initialState.players[playerId].color;
-  console.log("usa");
-  switch (roadId) {
-    case 1:
-      initialState.tiles[0].roadTopLeft = roadBuilder(roadId, playerId, color);
-      break;
-    case 2:
-      initialState.tiles[0].roadTopRight = roadBuilder(roadId, playerId, color);
-      break;
-    case 7:
-      initialState.tiles[1].roadTopLeft = roadBuilder(roadId, playerId, color);
-      break;
-    case 8:
-      initialState.tiles[1].roadTopRight = roadBuilder(roadId, playerId, color);
-      break;
-    case 13:
-      initialState.tiles[2].roadTopLeft = roadBuilder(roadId, playerId, color);
-      break;
-    case 14:
-      initialState.tiles[2].roadTopRight = roadBuilder(roadId, playerId, color);
-      break;
-    case 6:
-      initialState.tiles[0].roadLeft = roadBuilder(roadId, playerId, color);
-      break;
-    case 12:
-      initialState.tiles[0].roadRight = roadBuilder(roadId, playerId, color);
-      initialState.tiles[1].roadLeft = roadBuilder(roadId, playerId, color);
-      break;
-  }
+export const buildRoad = (roadId, roadType, hexId) => dispatch => {
   dispatch({
     type: BUILD_ROAD,
-    state: initialState
+    payload: { roadId: roadId, roadType: roadType, hexId: hexId }
   });
 };
 
@@ -236,13 +322,17 @@ export const buildRoad = roadId => dispatch => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case BUILD_ROAD:
-      return {
-        ...action.state
-      };
+      return roadSetup(
+        action.payload.roadId,
+        action.payload.roadType,
+        action.payload.hexId,
+        state
+      );
     default:
       return {
         ...state
       };
   }
 };
+
 export default reducer;
