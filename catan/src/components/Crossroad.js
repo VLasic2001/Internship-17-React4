@@ -1,28 +1,30 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "../App.css";
+import { buildSettlement } from "../redux/modules/board";
 
 class Crossroad extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      color: this.props.color
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick() {
-    this.setState(state => ({
-      color: "green"
-    }));
-  }
   render() {
     return (
       <div
-        onClick={this.handleClick}
+        onClick={() =>
+          this.props.buildSettlement(
+            this.props.id,
+            this.props.crossroadType,
+            this.props.hexId
+          )
+        }
         className={this.props.crossroadType}
-        style={{ backgroundColor: this.state.color }}
+        style={{ backgroundColor: this.props.color }}
       />
     );
   }
 }
 
-export default Crossroad;
+const mapDispatchToProps = {
+  buildSettlement
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(Crossroad);
