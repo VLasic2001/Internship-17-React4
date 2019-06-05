@@ -328,7 +328,13 @@ function crossroadSetup(
   );
   switch (crossroadType) {
     case "crossroad crossroad-top":
-      if (tiles[hexId].crossroadTop.playerId !== null) {
+      if (
+        tiles[hexId].crossroadTop.playerId !== null &&
+        tiles[hexId].crossroadTop.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadTop = settlement;
@@ -352,7 +358,13 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-top-right":
-      if (tiles[hexId].crossroadTopRight.playerId !== null) {
+      if (
+        tiles[hexId].crossroadTopRight.playerId !== null &&
+        tiles[hexId].crossroadTopRight.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadTopRight = settlement;
@@ -376,7 +388,13 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom-right":
-      if (tiles[hexId].crossroadBottomRight.playerId !== null) {
+      if (
+        tiles[hexId].crossroadBottomRight.playerId !== null &&
+        tiles[hexId].crossroadBottomRight.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadBottomRight = settlement;
@@ -400,7 +418,13 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom":
-      if (tiles[hexId].crossroadBottom.playerId !== null) {
+      if (
+        tiles[hexId].crossroadBottom.playerId !== null &&
+        tiles[hexId].crossroadBottom.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadBottom = settlement;
@@ -424,7 +448,13 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom-left":
-      if (tiles[hexId].crossroadBottomLeft.playerId !== null) {
+      if (
+        tiles[hexId].crossroadBottomLeft.playerId !== null &&
+        tiles[hexId].crossroadBottomLeft.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadBottomLeft = settlement;
@@ -448,7 +478,13 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-top-left":
-      if (tiles[hexId].crossroadTopLeft.playerId !== null) {
+      if (
+        tiles[hexId].crossroadTopLeft.playerId !== null &&
+        tiles[hexId].crossroadTopLeft.playerId !== state.currentPlayerId
+      ) {
+        return state;
+      }
+      if (settlementType === "city") {
         return state;
       }
       tiles[hexId].crossroadTopLeft = settlement;
@@ -476,12 +512,20 @@ function crossroadSetup(
 }
 
 function changePlayer(state) {
-  if (state.currentPlayerId === 4) {
-    state = { ...state, currentPlayerId: 1 };
+  if (state.currentPlayerId === state.players.length) {
+    state = { ...state, currentPlayerId: 1, roll: randomRoll() };
   } else {
-    state = { ...state, currentPlayerId: state.currentPlayerId + 1 };
+    state = {
+      ...state,
+      currentPlayerId: state.currentPlayerId + 1,
+      roll: randomRoll()
+    };
   }
   return state;
+}
+
+function randomRoll() {
+  return Math.floor(Math.random() * 11 + 2);
 }
 
 //action types
@@ -497,35 +541,35 @@ const initialState = {
       id: 1,
       name: "player1",
       color: "red",
-      lumber: 0,
-      wool: 0,
-      wheat: 0,
-      brick: 0,
-      ore: 0
+      lumber: 1,
+      wool: 2,
+      wheat: 3,
+      brick: 4,
+      ore: 5
     },
     {
       id: 2,
       name: "player2",
       color: "blue",
-      lumber: 0,
-      wool: 0,
-      wheat: 0,
-      brick: 0,
-      ore: 0
+      lumber: 5,
+      wool: 4,
+      wheat: 3,
+      brick: 2,
+      ore: 1
     },
     {
       id: 3,
       name: "player3",
       color: "teal",
-      lumber: 0,
-      wool: 0,
-      wheat: 0,
-      brick: 0,
-      ore: 0
+      lumber: 9,
+      wool: 9,
+      wheat: 9,
+      brick: 9,
+      ore: 9
     },
     {
       id: 4,
-      name: "player2",
+      name: "player4",
       color: "springgreen",
       lumber: 0,
       wool: 0,
@@ -534,7 +578,8 @@ const initialState = {
       ore: 0
     }
   ],
-  currentPlayerId: 3
+  currentPlayerId: 3,
+  roll: null
 };
 
 //action creators
