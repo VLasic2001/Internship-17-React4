@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Hexagon from "./Hexagon";
 import { connect } from "react-redux";
-import { setBoard } from "../redux/modules/board";
 
 class Board extends Component {
   render() {
@@ -44,11 +43,4 @@ const mapStateToProps = state => ({
   tiles: state.tiles
 });
 
-const mapDispatchToProps = {
-  setBoard
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Board);
+export default connect(mapStateToProps)(Board);

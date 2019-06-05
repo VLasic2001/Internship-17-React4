@@ -149,43 +149,52 @@ mappedTiles = tiles.map((tile, index) => {
       id: index * 6 + 1,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     },
     crossroadTopRight: {
       id: index * 6 + 2,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     },
     crossroadBottomRight: {
       id: index * 6 + 3,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     },
     crossroadBottom: {
       id: index * 6 + 4,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     },
     crossroadBottomLeft: {
       id: index * 6 + 5,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     },
     crossroadTopLeft: {
       id: index * 6 + 6,
       playerId: null,
       color: "gray",
-      isCity: null
+      settlementType: null
     }
   };
 });
 
-function buildingConstructor(id, playerId, color) {
+function roadConstructor(id, playerId, color) {
   return { id: id, playerId: playerId, color: color };
+}
+
+function settlementConstructor(id, playerId, color, settlementType) {
+  return {
+    id: id,
+    playerId: playerId,
+    color: color,
+    settlementType: settlementType === null ? "settlement" : "city"
+  };
 }
 
 function roadSetup(roadId, roadType, hexId, state) {
@@ -193,19 +202,19 @@ function roadSetup(roadId, roadType, hexId, state) {
   const playerId = state.currentPlayerId;
   const color = state.players[playerId - 1].color;
   const tiles = { ...state.tiles };
+  const road = roadConstructor(roadId, playerId, color);
   switch (roadType) {
     case "road road-top-left":
-      tiles[hexId].roadTopLeft = buildingConstructor(roadId, playerId, color);
+      if (tiles[hexId].roadTopLeft.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadTopLeft = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.topLeft !== null) {
-        tiles[neighbouringHexes.topLeft].roadBottomRight = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topLeft].roadBottomRight = road;
         state = {
           ...state,
           tiles: tiles
@@ -213,17 +222,16 @@ function roadSetup(roadId, roadType, hexId, state) {
       }
       return state;
     case "road road-top-right":
-      tiles[hexId].roadTopRight = buildingConstructor(roadId, playerId, color);
+      if (tiles[hexId].roadTopRight.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadTopRight = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.topRight !== null) {
-        tiles[neighbouringHexes.topRight].roadBottomLeft = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topRight].roadBottomLeft = road;
         state = {
           ...state,
           tiles: tiles
@@ -231,17 +239,16 @@ function roadSetup(roadId, roadType, hexId, state) {
       }
       return state;
     case "road road-right":
-      tiles[hexId].roadRight = buildingConstructor(roadId, playerId, color);
+      if (tiles[hexId].roadRight.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadRight = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.right !== null) {
-        tiles[neighbouringHexes.right].roadLeft = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.right].roadLeft = road;
         state = {
           ...state,
           tiles: tiles
@@ -249,21 +256,16 @@ function roadSetup(roadId, roadType, hexId, state) {
       }
       return state;
     case "road road-bottom-right":
-      tiles[hexId].roadBottomRight = buildingConstructor(
-        roadId,
-        playerId,
-        color
-      );
+      if (tiles[hexId].roadBottomRight.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadBottomRight = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.bottomRight !== null) {
-        tiles[neighbouringHexes.bottomRight].roadTopLeft = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.bottomRight].roadTopLeft = road;
         state = {
           ...state,
           tiles: tiles
@@ -271,21 +273,16 @@ function roadSetup(roadId, roadType, hexId, state) {
       }
       return state;
     case "road road-bottom-left":
-      tiles[hexId].roadBottomLeft = buildingConstructor(
-        roadId,
-        playerId,
-        color
-      );
+      if (tiles[hexId].roadBottomLeft.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadBottomLeft = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.bottomLeft !== null) {
-        tiles[neighbouringHexes.bottomLeft].roadTopRight = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.bottomLeft].roadTopRight = road;
         state = {
           ...state,
           tiles: tiles
@@ -293,17 +290,16 @@ function roadSetup(roadId, roadType, hexId, state) {
       }
       return state;
     case "road road-left":
-      tiles[hexId].roadLeft = buildingConstructor(roadId, playerId, color);
+      if (tiles[hexId].roadLeft.playerId !== null) {
+        return state;
+      }
+      tiles[hexId].roadLeft = road;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.left !== null) {
-        tiles[neighbouringHexes.left].roadRight = buildingConstructor(
-          roadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.left].roadRight = road;
         state = {
           ...state,
           tiles: tiles
@@ -313,44 +309,39 @@ function roadSetup(roadId, roadType, hexId, state) {
   }
 }
 
-function crossroadSetup(crossroadId, crossroadType, hexId, state) {
+function crossroadSetup(
+  crossroadId,
+  crossroadType,
+  hexId,
+  settlementType,
+  state
+) {
   const neighbouringHexes = hexRelations[hexId];
   const playerId = state.currentPlayerId;
   const color = state.players[playerId - 1].color;
   const tiles = { ...state.tiles };
-  console.log(crossroadType);
+  const settlement = settlementConstructor(
+    crossroadId,
+    playerId,
+    color,
+    settlementType
+  );
   switch (crossroadType) {
     case "crossroad crossroad-top":
-      tiles[hexId].crossroadTop = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadTop = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.topLeft !== null) {
-        tiles[
-          neighbouringHexes.topLeft
-        ].crossroadBottomRight = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topLeft].crossroadBottomRight = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.topRight !== null) {
-        tiles[
-          neighbouringHexes.topRight
-        ].crossroadBottomLeft = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topRight].crossroadBottomLeft = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -358,32 +349,20 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
       }
       break;
     case "crossroad crossroad-top-right":
-      tiles[hexId].crossroadTopRight = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadTopRight = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.topRight !== null) {
-        tiles[neighbouringHexes.topRight].crossroadBottom = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topRight].crossroadBottom = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.right !== null) {
-        tiles[neighbouringHexes.right].crossroadTopLeft = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.right].crossroadTopLeft = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -391,34 +370,20 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
       }
       break;
     case "crossroad crossroad-bottom-right":
-      tiles[hexId].crossroadBottomRight = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadBottomRight = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.bottomRight !== null) {
-        tiles[neighbouringHexes.bottomRight].crossroadTop = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.bottomRight].crossroadTop = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.right !== null) {
-        tiles[
-          neighbouringHexes.right
-        ].crossroadBottomLeft = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.right].crossroadBottomLeft = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -426,28 +391,20 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
       }
       break;
     case "crossroad crossroad-bottom":
-      tiles[hexId].crossroadBottom = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadBottom = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.bottomRight !== null) {
-        tiles[
-          neighbouringHexes.bottomRight
-        ].crossroadTopLeft = buildingConstructor(crossroadId, playerId, color);
+        tiles[neighbouringHexes.bottomRight].crossroadTopLeft = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.bottomLeft !== null) {
-        tiles[
-          neighbouringHexes.bottomLeft
-        ].crossroadTopRight = buildingConstructor(crossroadId, playerId, color);
+        tiles[neighbouringHexes.bottomLeft].crossroadTopRight = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -455,34 +412,20 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
       }
       break;
     case "crossroad crossroad-bottom-left":
-      tiles[hexId].crossroadBottomLeft = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadBottomLeft = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.left !== null) {
-        tiles[
-          neighbouringHexes.left
-        ].crossroadBottomRight = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.left].crossroadBottomRight = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.bottomLeft !== null) {
-        tiles[neighbouringHexes.bottomLeft].crossroadTop = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.bottomLeft].crossroadTop = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -490,32 +433,20 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
       }
       break;
     case "crossroad crossroad-top-left":
-      tiles[hexId].crossroadTopLeft = buildingConstructor(
-        crossroadId,
-        playerId,
-        color
-      );
+      tiles[hexId].crossroadTopLeft = settlement;
       state = {
         ...state,
         tiles: tiles
       };
       if (neighbouringHexes.topLeft !== null) {
-        tiles[neighbouringHexes.topLeft].crossroadBottom = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.topLeft].crossroadBottom = settlement;
         state = {
           ...state,
           tiles: tiles
         };
       }
       if (neighbouringHexes.left !== null) {
-        tiles[neighbouringHexes.left].crossroadTopRight = buildingConstructor(
-          crossroadId,
-          playerId,
-          color
-        );
+        tiles[neighbouringHexes.left].crossroadTopRight = settlement;
         state = {
           ...state,
           tiles: tiles
@@ -526,10 +457,19 @@ function crossroadSetup(crossroadId, crossroadType, hexId, state) {
   return state;
 }
 
+function changePlayer(state) {
+  if (state.currentPlayerId === 4) {
+    state = { ...state, currentPlayerId: 1 };
+  } else {
+    state = { ...state, currentPlayerId: state.currentPlayerId + 1 };
+  }
+  return state;
+}
+
 //action types
-const SET_BOARD = "SET_BOARD";
 const BUILD_ROAD = "BUILD_ROAD";
 const BUILD_SETTLEMENT = "BUILD_SETTLEMENT";
+const NEXT_PLAYER = "NEXT_PLAYER";
 
 //initial state
 const initialState = {
@@ -554,16 +494,32 @@ const initialState = {
       wheat: 0,
       brick: 0,
       ore: 0
+    },
+    {
+      id: 3,
+      name: "player3",
+      color: "teal",
+      lumber: 0,
+      wool: 0,
+      wheat: 0,
+      brick: 0,
+      ore: 0
+    },
+    {
+      id: 4,
+      name: "player2",
+      color: "springgreen",
+      lumber: 0,
+      wool: 0,
+      wheat: 0,
+      brick: 0,
+      ore: 0
     }
   ],
-  currentPlayerId: 1
+  currentPlayerId: 3
 };
 
 //action creators
-export const setBoard = () => dispatch => {
-  dispatch({ type: SET_BOARD });
-};
-
 export const buildRoad = (roadId, roadType, hexId) => dispatch => {
   dispatch({
     type: BUILD_ROAD,
@@ -574,21 +530,29 @@ export const buildRoad = (roadId, roadType, hexId) => dispatch => {
 export const buildSettlement = (
   crossroadId,
   crossroadType,
-  hexId
+  hexId,
+  settlementType
 ) => dispatch => {
   dispatch({
     type: BUILD_SETTLEMENT,
     payload: {
       crossroadId: crossroadId,
       crossroadType: crossroadType,
-      hexId: hexId
+      hexId: hexId,
+      settlementType: settlementType
     }
   });
+};
+
+export const nextPlayer = () => dispatch => {
+  dispatch({ type: NEXT_PLAYER });
 };
 
 //reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case NEXT_PLAYER:
+      return changePlayer(state);
     case BUILD_ROAD:
       return roadSetup(
         action.payload.roadId,
@@ -601,6 +565,7 @@ const reducer = (state = initialState, action) => {
         action.payload.crossroadId,
         action.payload.crossroadType,
         action.payload.hexId,
+        action.payload.settlementType,
         state
       );
     default:

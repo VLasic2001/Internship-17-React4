@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
-import Board from "./components/Board";
+import Game from "./components/Game";
 import store from "./redux/index";
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div>
         <Provider store={store}>
-          <Board />
+          <Game />
         </Provider>
       </div>
     );

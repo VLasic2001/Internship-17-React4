@@ -24,6 +24,7 @@ const Hexagon = ({ tile }) => {
           crossroadType="crossroad crossroad-top"
           id={tile.id * 6 + 1}
           hexId={tile.id}
+          settlementType={tile.crossroadTop.settlementType}
         />
       </div>
       <div className="hex-middle" style={{ backgroundColor: tile.color }}>
@@ -45,24 +46,28 @@ const Hexagon = ({ tile }) => {
           crossroadType="crossroad crossroad-top-left"
           id={tile.id * 6 + 6}
           hexId={tile.id}
+          settlementType={tile.crossroadTopLeft.settlementType}
         />
         <Crossroad
           color={tile.crossroadTopRight.color}
           crossroadType="crossroad crossroad-top-right"
           id={tile.id * 6 + 2}
           hexId={tile.id}
+          settlementType={tile.crossroadTopRight.settlementType}
         />
         <Crossroad
           color={tile.crossroadBottomLeft.color}
           crossroadType="crossroad crossroad-bottom-left"
           id={tile.id * 6 + 5}
           hexId={tile.id}
+          settlementType={tile.crossroadBottomLeft.settlementType}
         />
         <Crossroad
           color={tile.crossroadBottomRight.color}
           crossroadType="crossroad crossroad-bottom-right"
           id={tile.id * 6 + 3}
           hexId={tile.id}
+          settlementType={tile.crossroadBottomRight.settlementType}
         />
       </div>
       <div className="hex-bottom" style={{ borderTopColor: tile.color }}>
@@ -83,6 +88,7 @@ const Hexagon = ({ tile }) => {
           crossroadType="crossroad crossroad-bottom"
           id={tile.id * 6 + 4}
           hexId={tile.id}
+          settlementType={tile.crossroadBottom.settlementType}
         />
       </div>
     </div>

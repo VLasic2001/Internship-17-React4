@@ -5,17 +5,22 @@ import { buildSettlement } from "../redux/modules/board";
 
 class Crossroad extends Component {
   render() {
+    const style = {
+      backgroundColor: this.props.color,
+      border: this.props.settlementType === "city" ? "3px purple solid" : "0px"
+    };
     return (
       <div
         onClick={() =>
           this.props.buildSettlement(
             this.props.id,
             this.props.crossroadType,
-            this.props.hexId
+            this.props.hexId,
+            this.props.settlementType
           )
         }
         className={this.props.crossroadType}
-        style={{ backgroundColor: this.props.color }}
+        style={style}
       />
     );
   }
