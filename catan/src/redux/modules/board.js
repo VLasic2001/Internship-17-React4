@@ -328,6 +328,9 @@ function crossroadSetup(
   );
   switch (crossroadType) {
     case "crossroad crossroad-top":
+      if (tiles[hexId].crossroadTop.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadTop = settlement;
       state = {
         ...state,
@@ -349,6 +352,9 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-top-right":
+      if (tiles[hexId].crossroadTopRight.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadTopRight = settlement;
       state = {
         ...state,
@@ -370,6 +376,9 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom-right":
+      if (tiles[hexId].crossroadBottomRight.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadBottomRight = settlement;
       state = {
         ...state,
@@ -391,6 +400,9 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom":
+      if (tiles[hexId].crossroadBottom.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadBottom = settlement;
       state = {
         ...state,
@@ -412,6 +424,9 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-bottom-left":
+      if (tiles[hexId].crossroadBottomLeft.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadBottomLeft = settlement;
       state = {
         ...state,
@@ -433,6 +448,9 @@ function crossroadSetup(
       }
       break;
     case "crossroad crossroad-top-left":
+      if (tiles[hexId].crossroadTopLeft.playerId !== null) {
+        return state;
+      }
       tiles[hexId].crossroadTopLeft = settlement;
       state = {
         ...state,
@@ -520,6 +538,10 @@ const initialState = {
 };
 
 //action creators
+export const nextPlayer = () => dispatch => {
+  dispatch({ type: NEXT_PLAYER });
+};
+
 export const buildRoad = (roadId, roadType, hexId) => dispatch => {
   dispatch({
     type: BUILD_ROAD,
@@ -542,10 +564,6 @@ export const buildSettlement = (
       settlementType: settlementType
     }
   });
-};
-
-export const nextPlayer = () => dispatch => {
-  dispatch({ type: NEXT_PLAYER });
 };
 
 //reducer

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import nextPlayer from "../redux/modules/board";
+import { nextPlayer } from "../redux/modules/board";
 import { connect } from "react-redux";
 
 class Scoreboard extends Component {
