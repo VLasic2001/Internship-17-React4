@@ -197,9 +197,13 @@ function settlementConstructor(id, playerId, color, settlementType) {
   };
 }
 
-function roadSetup(roadId, roadType, hexId, state) {
+function roadSetup(roadId, roadType, roadColor, hexId, state) {
   const neighbouringHexes = hexRelations[hexId];
   const playerId = state.currentPlayerId;
+  const color = state.players[playerId - 1].color;
+  if (roadColor !== "black") {
+    return state;
+  }
   if (
     state.players[playerId - 1].lumber < 1 ||
     state.players[playerId - 1].brick < 1
@@ -211,7 +215,6 @@ function roadSetup(roadId, roadType, hexId, state) {
   players[playerId - 1].lumber -= 1;
   players[playerId - 1].brick -= 1;
   state = { ...state, players: players };
-  const color = state.players[playerId - 1].color;
   const tiles = { ...state.tiles };
   const road = roadConstructor(roadId, playerId, color);
   switch (roadType) {
@@ -623,7 +626,7 @@ const initialState = {
     {
       id: 3,
       name: "player3",
-      color: "teal",
+      color: "Orange",
       lumber: 9,
       wool: 9,
       grain: 9,
@@ -633,15 +636,15 @@ const initialState = {
     {
       id: 4,
       name: "player4",
-      color: "springgreen",
-      lumber: 0,
-      wool: 0,
-      grain: 0,
-      brick: 0,
+      color: "GreenYellow ",
+      lumber: 4,
+      wool: 2,
+      grain: 2,
+      brick: 4,
       ore: 0
     }
   ],
-  currentPlayerId: 4,
+  currentPlayerId: 1,
   roll: null
 };
 
@@ -650,10 +653,15 @@ export const nextPlayer = () => dispatch => {
   dispatch({ type: NEXT_PLAYER });
 };
 
-export const buildRoad = (roadId, roadType, hexId) => dispatch => {
+export const buildRoad = (roadId, roadType, roadColor, hexId) => dispatch => {
   dispatch({
     type: BUILD_ROAD,
-    payload: { roadId: roadId, roadType: roadType, hexId: hexId }
+    payload: {
+      roadId: roadId,
+      roadType: roadType,
+      roadColor: roadColor,
+      hexId: hexId
+    }
   });
 };
 
@@ -683,6 +691,7 @@ const reducer = (state = initialState, action) => {
       return roadSetup(
         action.payload.roadId,
         action.payload.roadType,
+        action.payload.roadColor,
         action.payload.hexId,
         state
       );

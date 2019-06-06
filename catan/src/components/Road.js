@@ -11,6 +11,7 @@ class Road extends Component {
           this.props.buildRoad(
             this.props.id,
             this.props.roadType,
+            this.props.color,
             this.props.hexId
           )
         }
