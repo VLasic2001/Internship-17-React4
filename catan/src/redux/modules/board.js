@@ -200,6 +200,17 @@ function settlementConstructor(id, playerId, color, settlementType) {
 function roadSetup(roadId, roadType, hexId, state) {
   const neighbouringHexes = hexRelations[hexId];
   const playerId = state.currentPlayerId;
+  if (
+    state.players[playerId - 1].lumber < 1 ||
+    state.players[playerId - 1].brick < 1
+  ) {
+    alert("Not enough resources!");
+    return state;
+  }
+  const players = [...state.players];
+  players[playerId - 1].lumber -= 1;
+  players[playerId - 1].brick -= 1;
+  state = { ...state, players: players };
   const color = state.players[playerId - 1].color;
   const tiles = { ...state.tiles };
   const road = roadConstructor(roadId, playerId, color);
@@ -318,6 +329,35 @@ function crossroadSetup(
 ) {
   const neighbouringHexes = hexRelations[hexId];
   const playerId = state.currentPlayerId;
+  if (settlementType === null) {
+    if (
+      state.players[playerId - 1].lumber < 1 ||
+      state.players[playerId - 1].brick < 1 ||
+      state.players[playerId - 1].wool < 1 ||
+      state.players[playerId - 1].grain < 1
+    ) {
+      alert("Not enough resources!");
+      return state;
+    }
+    const players = [...state.players];
+    players[playerId - 1].lumber -= 1;
+    players[playerId - 1].brick -= 1;
+    players[playerId - 1].wool -= 1;
+    players[playerId - 1].grain -= 1;
+    state = { ...state, players: players };
+  } else if (settlementType === "settlement") {
+    if (
+      state.players[playerId - 1].wool < 2 ||
+      state.players[playerId - 1].ore < 3
+    ) {
+      alert("Not enough resources!");
+      return state;
+    }
+    const players = [...state.players];
+    players[playerId - 1].wool -= 2;
+    players[playerId - 1].ore -= 3;
+    state = { ...state, players: players };
+  }
   const color = state.players[playerId - 1].color;
   const tiles = { ...state.tiles };
   const settlement = settlementConstructor(
@@ -521,6 +561,29 @@ function changePlayer(state) {
       roll: randomRoll()
     };
   }
+  const rolledTiles = Object.values(state.tiles).filter(
+    tile => tile.value === state.roll
+  );
+  rolledTiles.forEach(tile => {
+    if (tile.crossroadTop.playerId !== null) {
+      state.players[tile.crossroadTop.playerId - 1][tile.resource] += 1;
+    }
+    if (tile.crossroadTopRight.playerId !== null) {
+      state.players[tile.crossroadTopRight.playerId - 1][tile.resource] += 1;
+    }
+    if (tile.crossroadBottomRight.playerId !== null) {
+      state.players[tile.crossroadBottomRight.playerId - 1][tile.resource] += 1;
+    }
+    if (tile.crossroadBottom.playerId !== null) {
+      state.players[tile.crossroadBottom.playerId - 1][tile.resource] += 1;
+    }
+    if (tile.crossroadBottomLeft.playerId !== null) {
+      state.players[tile.crossroadBottomLeft.playerId - 1][tile.resource] += 1;
+    }
+    if (tile.crossroadTopLeft.playerId !== null) {
+      state.players[tile.crossroadTopLeft.playerId - 1][tile.resource] += 1;
+    }
+  });
   return state;
 }
 
@@ -543,7 +606,7 @@ const initialState = {
       color: "red",
       lumber: 1,
       wool: 2,
-      wheat: 3,
+      grain: 3,
       brick: 4,
       ore: 5
     },
@@ -553,7 +616,7 @@ const initialState = {
       color: "blue",
       lumber: 5,
       wool: 4,
-      wheat: 3,
+      grain: 3,
       brick: 2,
       ore: 1
     },
@@ -563,7 +626,7 @@ const initialState = {
       color: "teal",
       lumber: 9,
       wool: 9,
-      wheat: 9,
+      grain: 9,
       brick: 9,
       ore: 9
     },
@@ -573,12 +636,12 @@ const initialState = {
       color: "springgreen",
       lumber: 0,
       wool: 0,
-      wheat: 0,
+      grain: 0,
       brick: 0,
       ore: 0
     }
   ],
-  currentPlayerId: 3,
+  currentPlayerId: 4,
   roll: null
 };
 
