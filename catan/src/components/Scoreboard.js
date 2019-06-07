@@ -11,11 +11,11 @@ class Scoreboard extends Component {
         {this.props.players.map(player => {
           return player.id === this.props.currentPlayerId ? (
             <div style={{ fontWeight: 900 }} key={player.id}>
-              {player.name} (color: {player.color})
+              {player.name} - {player.points} points (color: {player.color})
             </div>
           ) : (
             <div key={player.id}>
-              {player.name} (color: {player.color})
+              {player.name} - {player.points} points (color: {player.color})
             </div>
           );
         })}
