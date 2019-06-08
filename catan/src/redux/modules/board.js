@@ -359,286 +359,664 @@ function crossroadSetup(
     color,
     settlementType
   );
-  switch (crossroadType) {
-    case "crossroad crossroad-top":
-      if (
-        (tiles[hexId].crossroadTop.playerId !== null &&
-          tiles[hexId].crossroadTop.playerId !== state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadTopRight.playerId !== null ||
-        tiles[hexId].crossroadTopLeft.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.topLeft !== null
-          ? tiles[neighbouringHexes.topLeft].crossroadTopRight.playerId !== null
-          : false || neighbouringHexes.topRight !== null
-          ? tiles[neighbouringHexes.topRight].crossroadTopLeft.playerId !== null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadTop = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.topLeft !== null) {
-        tiles[neighbouringHexes.topLeft].crossroadBottomRight = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.topRight !== null) {
-        tiles[neighbouringHexes.topRight].crossroadBottomLeft = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
-    case "crossroad crossroad-top-right":
-      if (
-        (tiles[hexId].crossroadTopRight.playerId !== null &&
-          tiles[hexId].crossroadTopRight.playerId !== state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadTop.playerId !== null ||
-        tiles[hexId].crossroadBottomRight.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.right !== null
-          ? tiles[neighbouringHexes.right].crossroadTop.playerId !== null
-          : false || neighbouringHexes.topRight !== null
-          ? tiles[neighbouringHexes.topRight].crossroadBottomRight.playerId !==
-            null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadTopRight = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.topRight !== null) {
-        tiles[neighbouringHexes.topRight].crossroadBottom = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.right !== null) {
-        tiles[neighbouringHexes.right].crossroadTopLeft = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
-    case "crossroad crossroad-bottom-right":
-      if (
-        (tiles[hexId].crossroadBottomRight.playerId !== null &&
-          tiles[hexId].crossroadBottomRight.playerId !==
-            state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadTopRight.playerId !== null ||
-        tiles[hexId].crossroadBottom.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.right !== null
-          ? tiles[neighbouringHexes.right].crossroadBottom.playerId !== null
-          : false || neighbouringHexes.bottomRight !== null
-          ? tiles[neighbouringHexes.bottomRight].crossroadTopRight.playerId !==
-            null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadBottomRight = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.bottomRight !== null) {
-        tiles[neighbouringHexes.bottomRight].crossroadTop = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.right !== null) {
-        tiles[neighbouringHexes.right].crossroadBottomLeft = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
-    case "crossroad crossroad-bottom":
-      if (
-        (tiles[hexId].crossroadBottom.playerId !== null &&
-          tiles[hexId].crossroadBottom.playerId !== state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadBottomRight.playerId !== null ||
-        tiles[hexId].crossroadBottomLeft.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.bottomLeft !== null
-          ? tiles[neighbouringHexes.bottomLeft].crossroadBottomRight
-              .playerId !== null
-          : false || neighbouringHexes.bottomRight !== null
-          ? tiles[neighbouringHexes.bottomRight].crossroadBottomLeft
-              .playerId !== null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadBottom = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.bottomRight !== null) {
-        tiles[neighbouringHexes.bottomRight].crossroadTopLeft = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.bottomLeft !== null) {
-        tiles[neighbouringHexes.bottomLeft].crossroadTopRight = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
-    case "crossroad crossroad-bottom-left":
-      if (
-        (tiles[hexId].crossroadBottomLeft.playerId !== null &&
-          tiles[hexId].crossroadBottomLeft.playerId !==
-            state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadTopLeft.playerId !== null ||
-        tiles[hexId].crossroadBottom.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.bottomLeft !== null
-          ? tiles[neighbouringHexes.bottomLeft].crossroadTopLeft.playerId !==
-            null
-          : false || neighbouringHexes.left !== null
-          ? tiles[neighbouringHexes.left].crossroadBottom.playerId !== null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadBottomLeft = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.left !== null) {
-        tiles[neighbouringHexes.left].crossroadBottomRight = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.bottomLeft !== null) {
-        tiles[neighbouringHexes.bottomLeft].crossroadTop = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
-    case "crossroad crossroad-top-left":
-      if (
-        (tiles[hexId].crossroadTopLeft.playerId !== null &&
-          tiles[hexId].crossroadTopLeft.playerId !== state.currentPlayerId) ||
-        settlementType === "city"
-      ) {
-        return state;
-      }
-      if (
-        tiles[hexId].crossroadBottomLeft.playerId !== null ||
-        tiles[hexId].crossroadTop.playerId !== null
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      if (
-        neighbouringHexes.left !== null
-          ? tiles[neighbouringHexes.left].crossroadTop.playerId !== null
-          : false || neighbouringHexes.topLeft !== null
-          ? tiles[neighbouringHexes.topLeft].crossroadBottomLeft.playerId !==
-            null
-          : false
-      ) {
-        alert("Cannot build settlement there, another is too close");
-        return state;
-      }
-      tiles[hexId].crossroadTopLeft = settlement;
-      state = {
-        ...state,
-        tiles: tiles
-      };
-      if (neighbouringHexes.topLeft !== null) {
-        tiles[neighbouringHexes.topLeft].crossroadBottom = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      if (neighbouringHexes.left !== null) {
-        tiles[neighbouringHexes.left].crossroadTopRight = settlement;
-        state = {
-          ...state,
-          tiles: tiles
-        };
-      }
-      break;
+  if (settlementType === null && state.players[playerId - 1].settlements >= 5) {
+    alert("Player already has 5 settlements");
+    return state;
   }
+  if (state.turn <= 2) {
+    switch (crossroadType) {
+      case "crossroad crossroad-top":
+        if (
+          (tiles[hexId].crossroadTop.playerId !== null &&
+            tiles[hexId].crossroadTop.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopRight.playerId !== null ||
+          tiles[hexId].crossroadTopLeft.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].crossroadTopRight.playerId !==
+              null
+            : false || neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].crossroadTopLeft.playerId !==
+              null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadTop = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topLeft !== null) {
+          tiles[neighbouringHexes.topLeft].crossroadBottomRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.topRight !== null) {
+          tiles[neighbouringHexes.topRight].crossroadBottomLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-top-right":
+        if (
+          (tiles[hexId].crossroadTopRight.playerId !== null &&
+            tiles[hexId].crossroadTopRight.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTop.playerId !== null ||
+          tiles[hexId].crossroadBottomRight.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].crossroadTop.playerId !== null
+            : false || neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].crossroadBottomRight
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadTopRight = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topRight !== null) {
+          tiles[neighbouringHexes.topRight].crossroadBottom = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.right !== null) {
+          tiles[neighbouringHexes.right].crossroadTopLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom-right":
+        if (
+          (tiles[hexId].crossroadBottomRight.playerId !== null &&
+            tiles[hexId].crossroadBottomRight.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopRight.playerId !== null ||
+          tiles[hexId].crossroadBottom.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].crossroadBottom.playerId !== null
+            : false || neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].crossroadTopRight
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadBottomRight = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.bottomRight !== null) {
+          tiles[neighbouringHexes.bottomRight].crossroadTop = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.right !== null) {
+          tiles[neighbouringHexes.right].crossroadBottomLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom":
+        if (
+          (tiles[hexId].crossroadBottom.playerId !== null &&
+            tiles[hexId].crossroadBottom.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadBottomRight.playerId !== null ||
+          tiles[hexId].crossroadBottomLeft.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].crossroadBottomRight
+                .playerId !== null
+            : false || neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].crossroadBottomLeft
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadBottom = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.bottomRight !== null) {
+          tiles[neighbouringHexes.bottomRight].crossroadTopLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.bottomLeft !== null) {
+          tiles[neighbouringHexes.bottomLeft].crossroadTopRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom-left":
+        if (
+          (tiles[hexId].crossroadBottomLeft.playerId !== null &&
+            tiles[hexId].crossroadBottomLeft.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopLeft.playerId !== null ||
+          tiles[hexId].crossroadBottom.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].crossroadTopLeft.playerId !==
+              null
+            : false || neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].crossroadBottom.playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadBottomLeft = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.left !== null) {
+          tiles[neighbouringHexes.left].crossroadBottomRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.bottomLeft !== null) {
+          tiles[neighbouringHexes.bottomLeft].crossroadTop = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-top-left":
+        if (
+          (tiles[hexId].crossroadTopLeft.playerId !== null &&
+            tiles[hexId].crossroadTopLeft.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadBottomLeft.playerId !== null ||
+          tiles[hexId].crossroadTop.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].crossroadTop.playerId !== null
+            : false || neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].crossroadBottomLeft.playerId !==
+              null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        tiles[hexId].crossroadTopLeft = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topLeft !== null) {
+          tiles[neighbouringHexes.topLeft].crossroadBottom = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.left !== null) {
+          tiles[neighbouringHexes.left].crossroadTopRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+    }
+  } else {
+    switch (crossroadType) {
+      case "crossroad crossroad-top":
+        if (
+          (tiles[hexId].crossroadTop.playerId !== null &&
+            tiles[hexId].crossroadTop.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopRight.playerId !== null ||
+          tiles[hexId].crossroadTopLeft.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].crossroadTopRight.playerId !==
+              null
+            : false || neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].crossroadTopLeft.playerId !==
+              null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadTopRight.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadTopLeft.playerId !== state.currentPlayerId &&
+          neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].roadRight.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].roadLeft.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadTop = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topLeft !== null) {
+          tiles[neighbouringHexes.topLeft].crossroadBottomRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.topRight !== null) {
+          tiles[neighbouringHexes.topRight].crossroadBottomLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-top-right":
+        if (
+          (tiles[hexId].crossroadTopRight.playerId !== null &&
+            tiles[hexId].crossroadTopRight.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTop.playerId !== null ||
+          tiles[hexId].crossroadBottomRight.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].crossroadTop.playerId !== null
+            : false || neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].crossroadBottomRight
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadTopRight.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadRight.playerId !== state.currentPlayerId &&
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].roadTopLeft.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.topRight !== null
+            ? tiles[neighbouringHexes.topRight].roadBottomRight.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadTopRight = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topRight !== null) {
+          tiles[neighbouringHexes.topRight].crossroadBottom = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.right !== null) {
+          tiles[neighbouringHexes.right].crossroadTopLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom-right":
+        if (
+          (tiles[hexId].crossroadBottomRight.playerId !== null &&
+            tiles[hexId].crossroadBottomRight.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopRight.playerId !== null ||
+          tiles[hexId].crossroadBottom.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].crossroadBottom.playerId !== null
+            : false || neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].crossroadTopRight
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadBottomRight.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadRight.playerId !== state.currentPlayerId &&
+          neighbouringHexes.right !== null
+            ? tiles[neighbouringHexes.right].roadBottomLeft.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].roadTopRight.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadBottomRight = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.bottomRight !== null) {
+          tiles[neighbouringHexes.bottomRight].crossroadTop = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.right !== null) {
+          tiles[neighbouringHexes.right].crossroadBottomLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom":
+        if (
+          (tiles[hexId].crossroadBottom.playerId !== null &&
+            tiles[hexId].crossroadBottom.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadBottomRight.playerId !== null ||
+          tiles[hexId].crossroadBottomLeft.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].crossroadBottomRight
+                .playerId !== null
+            : false || neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].crossroadBottomLeft
+                .playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadBottomRight.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadBottomLeft.playerId !== state.currentPlayerId &&
+          neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].roadRight.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.bottomRight !== null
+            ? tiles[neighbouringHexes.bottomRight].roadLeft.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadBottom = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.bottomRight !== null) {
+          tiles[neighbouringHexes.bottomRight].crossroadTopLeft = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.bottomLeft !== null) {
+          tiles[neighbouringHexes.bottomLeft].crossroadTopRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-bottom-left":
+        if (
+          (tiles[hexId].crossroadBottomLeft.playerId !== null &&
+            tiles[hexId].crossroadBottomLeft.playerId !==
+              state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadTopLeft.playerId !== null ||
+          tiles[hexId].crossroadBottom.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].crossroadTopLeft.playerId !==
+              null
+            : false || neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].crossroadBottom.playerId !== null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadBottomLeft.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadLeft.playerId !== state.currentPlayerId &&
+          neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].roadBottomRight.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.bottomLeft !== null
+            ? tiles[neighbouringHexes.bottomLeft].roadTopLeft.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadBottomLeft = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.left !== null) {
+          tiles[neighbouringHexes.left].crossroadBottomRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.bottomLeft !== null) {
+          tiles[neighbouringHexes.bottomLeft].crossroadTop = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+      case "crossroad crossroad-top-left":
+        if (
+          (tiles[hexId].crossroadTopLeft.playerId !== null &&
+            tiles[hexId].crossroadTopLeft.playerId !== state.currentPlayerId) ||
+          settlementType === "city"
+        ) {
+          return state;
+        }
+        if (
+          tiles[hexId].crossroadBottomLeft.playerId !== null ||
+          tiles[hexId].crossroadTop.playerId !== null
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].crossroadTop.playerId !== null
+            : false || neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].crossroadBottomLeft.playerId !==
+              null
+            : false
+        ) {
+          alert("Cannot build settlement there, another is too close");
+          return state;
+        }
+        if (
+          tiles[hexId].roadTopLeft.playerId !== state.currentPlayerId &&
+          tiles[hexId].roadLeft.playerId !== state.currentPlayerId &&
+          neighbouringHexes.left !== null
+            ? tiles[neighbouringHexes.left].roadTopRight.playerId !==
+              state.currentPlayerId
+            : true && neighbouringHexes.topLeft !== null
+            ? tiles[neighbouringHexes.topLeft].roadBottomLeft.playerId !==
+              state.currentPlayerId
+            : true
+        ) {
+          alert("No road nearby");
+          return state;
+        }
+        tiles[hexId].crossroadTopLeft = settlement;
+        state = {
+          ...state,
+          tiles: tiles
+        };
+        if (neighbouringHexes.topLeft !== null) {
+          tiles[neighbouringHexes.topLeft].crossroadBottom = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        if (neighbouringHexes.left !== null) {
+          tiles[neighbouringHexes.left].crossroadTopRight = settlement;
+          state = {
+            ...state,
+            tiles: tiles
+          };
+        }
+        break;
+    }
+  }
+
   const players = [...state.players];
   if (settlementType == "settlement") {
     players[playerId - 1].wool -= 2;
@@ -651,6 +1029,7 @@ function crossroadSetup(
     players[playerId - 1].wool -= 1;
     players[playerId - 1].grain -= 1;
     players[playerId - 1].points += 1;
+    players[playerId - 1].settlements += 1;
     state = { ...state, players: players };
   }
   if (players[playerId - 1].points === 10) {
@@ -660,11 +1039,36 @@ function crossroadSetup(
 }
 
 function changePlayer(state) {
+  const { players } = { ...state };
+  if (state.turn === 1) {
+    players[state.currentPlayerId - 1].lumber = 2;
+    players[state.currentPlayerId - 1].wool = 1;
+    players[state.currentPlayerId - 1].grain = 1;
+    players[state.currentPlayerId - 1].brick = 2;
+  }
   if (state.currentPlayerId === state.players.length) {
-    state = { ...state, currentPlayerId: 1, roll: randomRoll() };
+    if (state.turn === 1) {
+      const reversePlayers = players.reverse();
+      state = {
+        ...state,
+        players: reversePlayers,
+        currentPlayerId: 1,
+        roll: randomRoll(),
+        turn: state.turn + 1
+      };
+    } else {
+      state = {
+        ...state,
+        players,
+        currentPlayerId: 1,
+        roll: randomRoll(),
+        turn: state.turn + 1
+      };
+    }
   } else {
     state = {
       ...state,
+      players,
       currentPlayerId: state.currentPlayerId + 1,
       roll: randomRoll()
     };
@@ -695,6 +1099,61 @@ function changePlayer(state) {
   return state;
 }
 
+function playersSetup(playerNames, state) {
+  if (playerNames.filter(playerName => playerName !== "").length < 2) {
+    alert("You need to have at least 2 players");
+    return state;
+  }
+  const players = [
+    {
+      name: playerNames[0],
+      color: "red",
+      lumber: 2,
+      wool: 1,
+      grain: 1,
+      brick: 2,
+      ore: 0,
+      points: 0,
+      settlements: 0
+    },
+    {
+      name: playerNames[1],
+      color: "blue",
+      lumber: 2,
+      wool: 1,
+      grain: 1,
+      brick: 2,
+      ore: 0,
+      points: 0,
+      settlements: 0
+    },
+    {
+      name: playerNames[2],
+      color: "orange",
+      lumber: 2,
+      wool: 1,
+      grain: 1,
+      brick: 2,
+      ore: 0,
+      points: 0,
+      settlements: 0
+    },
+    {
+      name: playerNames[3],
+      color: "greenyellow",
+      lumber: 2,
+      wool: 1,
+      grain: 1,
+      brick: 2,
+      ore: 0,
+      points: 0,
+      settlements: 0
+    }
+  ].filter(player => player.name !== "");
+  state = { ...state, players: players };
+  return state;
+}
+
 function randomRoll() {
   return Math.floor(Math.random() * 11 + 2);
 }
@@ -703,58 +1162,14 @@ function randomRoll() {
 const BUILD_ROAD = "BUILD_ROAD";
 const BUILD_SETTLEMENT = "BUILD_SETTLEMENT";
 const NEXT_PLAYER = "NEXT_PLAYER";
+const SETUP_PLAYERS = "SETUP_PLAYERS";
 
 //initial state
 const initialState = {
   tiles: mappedTiles,
-  players: [
-    {
-      id: 1,
-      name: "player1",
-      color: "red",
-      lumber: 99,
-      wool: 99,
-      grain: 99,
-      brick: 99,
-      ore: 99,
-      points: 0
-    },
-    {
-      id: 2,
-      name: "player2",
-      color: "blue",
-      lumber: 4,
-      wool: 2,
-      grain: 2,
-      brick: 4,
-      ore: 0,
-      points: 0
-    },
-    {
-      id: 3,
-      name: "player3",
-      color: "Orange",
-      lumber: 4,
-      wool: 2,
-      grain: 2,
-      brick: 4,
-      ore: 0,
-      points: 0
-    },
-    {
-      id: 4,
-      name: "player4",
-      color: "GreenYellow ",
-      lumber: 4,
-      wool: 2,
-      grain: 2,
-      brick: 4,
-      ore: 0,
-      points: 0
-    }
-  ],
   currentPlayerId: 1,
-  roll: null
+  roll: null,
+  turn: 1
 };
 
 //action creators
@@ -791,9 +1206,15 @@ export const buildSettlement = (
   });
 };
 
+export const setupPlayers = players => dispatch => {
+  dispatch({ type: SETUP_PLAYERS, payload: { players } });
+};
+
 //reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SETUP_PLAYERS:
+      return playersSetup(action.payload.players, state);
     case NEXT_PLAYER:
       return changePlayer(state);
     case BUILD_ROAD:
