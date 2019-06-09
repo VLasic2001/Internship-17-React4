@@ -11,7 +11,8 @@ class Scoreboard extends Component {
         <div>
           <h1 onClick={() => this.props.nextPlayer()}>Next Player</h1>
           {this.props.players.map(player => {
-            return player.id === this.props.currentPlayerId ? (
+            return player.id === this.props.currentPlayerId &&
+              this.props.turn > 1 ? (
               <div style={{ fontWeight: 900 }} key={player.id}>
                 {player.name} - {player.points} points (color: {player.color})
               </div>
@@ -54,7 +55,8 @@ class Scoreboard extends Component {
 const mapStateToProps = state => ({
   players: state.players,
   currentPlayerId: state.currentPlayerId,
-  roll: state.roll
+  roll: state.roll,
+  turn: state.turn
 });
 
 const mapDispatchToProps = {
